@@ -18,10 +18,12 @@ import Trips from './pages/Trips'
 import Maintenance from './pages/Maintenance'
 import FuelExpenses from './pages/FuelExpenses'
 import Reports from './pages/Reports'
+import SignupRequests from './pages/SignupRequests'
+
 
 
 const ROLE_ROUTE_ALLOW = {
-  'Fleet Manager': ['/', '/dashboard', '/vehicles', '/drivers', '/trips', '/maintenance', '/fuel-expenses', '/reports'],
+  'Fleet Manager': ['/', '/dashboard', '/vehicles', '/drivers', '/trips', '/signup-requests', '/maintenance', '/fuel-expenses', '/reports'],
   Driver: ['/', '/dashboard', '/trips', '/vehicles'],
   'Safety Officer': ['/', '/dashboard', '/drivers', '/maintenance', '/trips'],
   'Financial Analyst': ['/', '/dashboard', '/reports', '/fuel-expenses', '/vehicles']
@@ -144,6 +146,17 @@ export default function App() {
               />
             }
           />
+
+          <Route
+            path="signup-requests"
+            element={
+              <RoleProtectedRoute
+                allowed={["Fleet Manager"]}
+                element={<SignupRequests />}
+              />
+            }
+          />
+
 
           <Route
             path="fuel-expenses"

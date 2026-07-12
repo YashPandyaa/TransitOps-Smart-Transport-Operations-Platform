@@ -8,6 +8,7 @@ const MENU_BY_ROLE = {
     { to: '/vehicles', label: 'Vehicles' },
     { to: '/drivers', label: 'Drivers' },
     { to: '/trips', label: 'Trips & Dispatch' },
+    { to: '/signup-requests', label: 'Signup Requests' },
     { to: '/maintenance', label: 'Maintenance Log' },
     { to: '/fuel-expenses', label: 'Finance & Costs' },
     { to: '/reports', label: 'Reports & Analytics' }
