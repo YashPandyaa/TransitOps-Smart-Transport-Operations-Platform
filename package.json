@@ -8,7 +8,7 @@
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "build": "npm --prefix backend run build && npm --prefix frontend run build",
-    "start": "node --enable-source-maps backend/src/index.js",
+    "start": "concurrently -k --names \"BACKEND,FRONTEND,BROWSER\" --prefix-colors \"cyan,magenta,green\" \"npm --prefix backend start\" \"npm --prefix frontend run dev\" \"node scripts/open-browser.mjs\"",
     "lint": "echo \"(optional) add eslint\""
   },
   "devDependencies": {
