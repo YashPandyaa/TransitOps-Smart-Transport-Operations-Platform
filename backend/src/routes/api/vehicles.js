@@ -57,6 +57,47 @@ router.get('/', async (req, res) => {
   return res.json({ vehicles: q.rows })
 })
 
+// GET /api/vehicles/:id/costs
+// Returns aggregated fuel, maintenance, other expenses, and total costs.
+router.get('/:id/costs', async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    const vehicleRes = await pool.query(
+      'SELECT id, name_model, registration_number FROM vehicles WHERE id = $1',
+      [id]
+    )
+
+    if (vehicleRes.rowCount === 0) {
+      return res.status(404).json({ message: 'Vehicle not found' })
+    }
+
+    const vehicle = vehicleRes.rows[0]
+
+    const [fuelRes, maintenanceRes, expenseRes] = await Promise.all([
+      pool.query('SELECT COALESCE(SUM(cost), 0) AS total FROM fuel_logs WHERE vehicle_id = $1', [id]),
+      pool.query('SELECT COALESCE(SUM(cost), 0) AS total FROM maintenance_logs WHERE vehicle_id = $1', [id]),
+      pool.query('SELECT COALESCE(SUM(amount), 0) AS total FROM expenses WHERE vehicle_id = $1', [id])
+    ])
+
+    const fuelCost = Number(fuelRes.rows[0].total) || 0
+    const maintenanceCost = Number(maintenanceRes.rows[0].total) || 0
+    const otherCost = Number(expenseRes.rows[0].total) || 0
+
+    return res.json({
+      vehicle_id: Number(vehicle.id),
+      name_model: vehicle.name_model,
+      registration_number: vehicle.registration_number,
+      fuel_cost: fuelCost,
+      maintenance_cost: maintenanceCost,
+      other_expense_cost: otherCost,
+      total_cost: fuelCost + maintenanceCost + otherCost
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 // POST /api/vehicles (Fleet Manager only)
 router.post('/', requireFleetManagerForMutations, async (req, res) => {
   const payload = parseVehiclePayload(req.body)
@@ -162,5 +203,4 @@ router.delete('/:id', requireFleetManagerForMutations, async (req, res) => {
 })
 
 export default router
-
 

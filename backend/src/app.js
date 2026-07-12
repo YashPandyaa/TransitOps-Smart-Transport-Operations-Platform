@@ -13,6 +13,7 @@ import maintenanceRoutes from "./routes/api/maintenance.js";
 import fuelLogsRoutes from "./routes/api/fuel-logs.js";
 import expensesRoutes from "./routes/api/expenses.js";
 import dashboardRoutes from "./routes/api/dashboard.js";
+import reportsRoutes from "./routes/api/reports.js";
 
 const env = getEnv();
 
@@ -32,6 +33,7 @@ app.use("/api/maintenance", maintenanceRoutes);
 app.use("/api/fuel-logs", fuelLogsRoutes);
 app.use("/api/expenses", expensesRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/reports", reportsRoutes);
 
 // 404
 app.use((req, res) => res.status(404).json({ message: "Not found" }));
