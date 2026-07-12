@@ -28,3 +28,19 @@ pnpm-debug.log*
 dist/
 build/
 out/
+
+# Operating system files
+.DS_Store
+**/.DS_Store
+
+# Cache and temporary files
+.cache/
+*.cache
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+coverage/
+.eslintcache
+.parcel-cache/
