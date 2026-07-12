@@ -38,7 +38,8 @@ export function AuthProvider({ children }) {
       role: auth.user?.role,
       isAuthenticated: Boolean(auth.token),
       login,
-      logout
+      logout,
+      authFetch
     }
   }, [auth.token, auth.user, login, logout])
 
@@ -61,4 +62,3 @@ export async function authFetch(token, input, init = {}) {
     headers
   })
 }
-

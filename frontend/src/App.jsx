@@ -9,6 +9,8 @@ import Layout from './components/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Vehicles from './pages/Vehicles'
+import VehicleAdd from './pages/VehicleAdd'
+import VehicleEdit from './pages/VehicleEdit'
 import Drivers from './pages/Drivers'
 import DriverAdd from './pages/DriverAdd'
 import DriverEdit from './pages/DriverEdit'
@@ -169,5 +171,4 @@ export default function App() {
     </AuthProvider>
   )
 }
-
 

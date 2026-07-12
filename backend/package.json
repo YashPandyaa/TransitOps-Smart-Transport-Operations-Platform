@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "nodemon --legacy-watch --watch src --ext js,mjs,cjs,json src/index.js",
     "build": "echo \"(backend has no build step)\"",
     "start": "node src/index.js",
     "migrate": "node scripts/migrate.js"
@@ -23,4 +23,3 @@
     "nodemon": "^3.1.4"
   }
 }
-
