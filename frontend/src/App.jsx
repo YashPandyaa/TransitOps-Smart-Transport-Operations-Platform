@@ -10,10 +10,13 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Vehicles from './pages/Vehicles'
 import Drivers from './pages/Drivers'
+import DriverAdd from './pages/DriverAdd'
+import DriverEdit from './pages/DriverEdit'
 import Trips from './pages/Trips'
 import Maintenance from './pages/Maintenance'
 import FuelExpenses from './pages/FuelExpenses'
 import Reports from './pages/Reports'
+
 
 const ROLE_ROUTE_ALLOW = {
   'Fleet Manager': ['/', '/dashboard', '/vehicles', '/drivers', '/trips', '/maintenance', '/fuel-expenses', '/reports'],
@@ -99,6 +102,27 @@ export default function App() {
               />
             }
           />
+
+          <Route
+            path="drivers/add"
+            element={
+              <RoleProtectedRoute
+                allowed={["Fleet Manager", "Safety Officer"]}
+                element={<DriverAdd />}
+              />
+            }
+          />
+
+          <Route
+            path="drivers/edit/:id"
+            element={
+              <RoleProtectedRoute
+                allowed={["Fleet Manager", "Safety Officer"]}
+                element={<DriverEdit />}
+              />
+            }
+          />
+
 
           <Route
             path="trips"
