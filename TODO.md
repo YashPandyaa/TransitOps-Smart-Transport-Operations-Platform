@@ -7,5 +7,3 @@
 - [ ] Implement VehicleAdd and VehicleEdit pages wiring to backend
 - [ ] Inline form error display for duplicate registration number
 - [ ] Verify by running backend + frontend and checking role-based access
-
-hello
