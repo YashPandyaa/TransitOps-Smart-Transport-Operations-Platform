@@ -1,4 +1,5 @@
 import pg from 'pg'
+import bcrypt from 'bcrypt'
 import { execSync } from 'child_process'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -15,7 +16,7 @@ async function main() {
   const host = process.env.PGHOST || 'localhost'
   const port = parseInt(process.env.PGPORT || '5432', 10)
   const user = process.env.PGUSER || 'postgres'
-  const password = process.env.PGPASSWORD || 'postgres'
+  const password = process.env.PGPASSWORD || 'MyNewPassword123'
   const database = process.env.PGDATABASE || 'transitops'
 
   console.log(`Connecting to default 'postgres' database to check for '${database}'...`)
@@ -44,7 +45,7 @@ async function main() {
   execSync('node scripts/migrate.js', { cwd: path.join(__dirname, '..'), stdio: 'inherit' })
 
   // Seed initial data
-  console.log('Seeding initial data (vehicles, drivers)...')
+  console.log('Seeding initial data (vehicles, drivers, users)...')
   const seedClient = new Client({
     host,
     port,
@@ -79,7 +80,19 @@ async function main() {
     ON CONFLICT (license_number) DO NOTHING
   `)
 
-  // 3. Seed some default trips
+  // 3. Seed Users
+  console.log('Seeding users...')
+  const managerHash = await bcrypt.hash('manager123', 10)
+  const driverHash = await bcrypt.hash('driver123', 10)
+  await seedClient.query(`
+    INSERT INTO users (name, email, password_hash, role)
+    VALUES 
+      ('Alice Manager', 'manager@transitops.com', $1, 'Fleet Manager'),
+      ('Bob Driver', 'driver@transitops.com', $2, 'Driver')
+    ON CONFLICT (email) DO NOTHING
+  `, [managerHash, driverHash])
+
+  // 4. Seed some default trips
   console.log('Seeding trips...')
   const vehicleRes = await seedClient.query("SELECT id FROM vehicles WHERE registration_number = 'TX-9021'")
   const driverRes = await seedClient.query("SELECT id FROM drivers WHERE license_number = 'DL-9988112'")
@@ -88,7 +101,6 @@ async function main() {
     const vehicleId = vehicleRes.rows[0].id
     const driverId = driverRes.rows[0].id
 
-    // Check if trips already seeded to avoid duplication
     const tripCheck = await seedClient.query("SELECT 1 FROM trips WHERE source = 'Warehouse A' AND destination = 'Distribution Center B'")
     if (tripCheck.rowCount === 0) {
       await seedClient.query(`
@@ -100,7 +112,7 @@ async function main() {
   }
 
   await seedClient.end()
-  console.log('Database setup and seeding complete!')
+  console.log('Database setup, seeding and users setup complete!')
 }
 
 main().catch(err => {
