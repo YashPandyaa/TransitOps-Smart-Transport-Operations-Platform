@@ -76,6 +76,21 @@ export default function App() {
           />
 
           <Route
+            path="vehicles/add"
+            element={
+              <RoleProtectedRoute allowed={["Fleet Manager"]} element={<VehicleAdd />} />
+            }
+          />
+
+          <Route
+            path="vehicles/edit/:id"
+            element={
+              <RoleProtectedRoute allowed={["Fleet Manager"]} element={<VehicleEdit />} />
+            }
+          />
+
+
+          <Route
             path="drivers"
             element={
               <RoleProtectedRoute

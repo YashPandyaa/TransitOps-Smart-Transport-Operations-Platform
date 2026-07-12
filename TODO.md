@@ -1,15 +1,11 @@
-# TODO - TransitOps Auth + RBAC
+# TODO
 
-- [x] Implement backend `POST /api/auth/login` (JWT with user_id + role)
-- [x] Fill backend `backend/src/middleware/auth.js` robustness for `requireAuth` + `requireRole`
-- [x] Add backend seed script: `backend/scripts/seedUsers.js` (4 roles, bcrypt-hashed passwords)
-- [x] Add frontend AuthContext (in-memory token, not localStorage)
-- [x] Implement frontend Login page calling `/api/auth/login`
-- [x] Add frontend ProtectedRoute wrapper (redirect to /login)
-- [x] Update frontend routing to protect all app pages
-- [x] Implement role-aware NavBar using the provided role-to-menu matrix
-- [x] Protect corresponding backend routes/pages (server-side RBAC middleware wiring)
+## Vehicle Registry (TransitOps)
+- [ ] Implement backend CRUD + auth/role protection + status filtering + uniqueness error message for /api/vehicles
+- [ ] Implement frontend Vehicles page table + status badges
+- [ ] Add shared VehicleForm component for Add/Edit (Fleet Manager only)
+- [ ] Implement VehicleAdd and VehicleEdit pages wiring to backend
+- [ ] Inline form error display for duplicate registration number
+- [ ] Verify by running backend + frontend and checking role-based access
 
-- [ ] Run quick smoke tests (migrate, seed, login, token rejection)
-
-
+hello
